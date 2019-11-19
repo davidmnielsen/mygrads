@@ -33,18 +33,28 @@ import mygrads as mg
 ```python
 # We are using some sample data downloaded from the NCEP Reanalysis 2
 # Downloaded from: https://www.esrl.noaa.gov/psd/data/gridded/data.ncep.reanalysis2.html
+
+# Zonal wind
 ds   = xr.open_dataset('data/u.nc')
 u    = ds['uwnd'][0,0,:,:].values
 lat  = ds['lat'].values
 lon  = ds['lon'].values
+
+# Meridional wind
 ds   = xr.open_dataset('data/v.nc')
 v    = ds['vwnd'][0,0,:,:].values
+
+# Temperature
 ds   = xr.open_dataset('data/t.nc')
 t    = ds['air'][0,0,:,:].values
 ```
 ## Calculations
 
 ### Centered Finite Differences
+
+This replicates the `cdiff` function of GrADS (see their [docu](http://cola.gmu.edu/grads/gadoc/gradfunccdiff.html). "The difference is done in the grid space, and no adjustment is performed for unequally spaced grids. The result value at each grid point is the value at the grid point plus one minus the value at the grid point minus one."
+
+It is also used internally here in `hdivg`, `hcurl` and `hadv` implementatinos. The numpy-like argument `axis` should be 0 or 1, to indicate the dimension over which the derivative is being calculated. 
 
 ```python
 latv, lonv = np.meshgrid(lat, lon, indexing='ij')
@@ -53,11 +63,15 @@ dudx = mg.cdiff(u, axis=0)/mg.cdiff(lonv*np.pi/180)
 
 ### Horizontal Divergence
 
+Identical as GrADS `hdivg` ([ref.](http://cola.gmu.edu/grads/gadoc/gradfunchdivg.html)).
+
 ```python
 div = mg.hdivg(u,v,lat,lon)
 ```
 
 ### Relative Vorticity
+
+Or the vertical component of the relative vorticity. Identical as GrADS `hcurl` ([ref.](http://cola.gmu.edu/grads/gadoc/gradfunchcurl.html))
 
 ```python
 vort = mg.hcurl(u,v,lat,lon)
@@ -65,11 +79,15 @@ vort = mg.hcurl(u,v,lat,lon)
 
 ### Temperature Advection
 
+This is not natively implemented in GrADS. Nonthenless, it is pretty straightforward given the above functions, and already described [here](http://cola.gmu.edu/grads/gadoc/gradfunchcurl.html).
+
 ```python
 tadv = mg.hadv(u,v,t,lat,lon)
 ```
 
 ## Plot
+
+Note that the data are from thr 500 hPa level, so the wind is basically geostrophic. Therefore, not much divergece results in the vicinities of the jet. 
 
 ```python
 fig = plt.figure(figsize=(10, 8))
