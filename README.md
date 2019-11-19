@@ -3,10 +3,10 @@
 This is a collection of functions implemented in python that replicate
 their implementation in GrADS.
 Content:
-1. Centered Differences (cdiff)
-2. Horizontal Divergence (hdivg)
-3. Vertical component of the relative vorticity (hcurl)
-4. Horizontal Advection (tadv) 
+1. [Centered Finite Differences](#centered-finite-differences)
+2. [Horizontal Divergence](#horizontal-divergence)
+3. [Relative Vorticity](#relative-vorticity)
+4. [Temperature Advection](#temperature-advection) 
 
 Only requires Numpy.
 In this example, we use Xarray to read in the nc files, Matplotlib and Cartopy for plotting.
@@ -44,31 +44,26 @@ t    = ds['air'][0,0,:,:].values
 ```
 ## Calculations
 
-### Horizontal Divergence
+### Centered Finite Differences
 
-```math
-\frac{\partial u}{\partial x}+\frac{\partial v}{\partial y}
+```python
+latv, lonv = np.meshgrid(lat, lon, indexing='ij')
+dudx = mg.cdiff(u, axis=0)/mg.cdiff(lonv*np.pi/180) 
 ```
+
+### Horizontal Divergence
 
 ```python
 div = mg.hdivg(u,v,lat,lon)
 ```
 
-### Relative Vorticity (vertical component of)
-
-```math
-\frac{\partial v}{\partial x}-\frac{\partial u}{\partial y}
-```
+### Relative Vorticity
 
 ```python
 vort = mg.hcurl(u,v,lat,lon)
 ```
 
 ### Temperature Advection
-
-```math
-u\frac{\partial T}{\partial x}+v\frac{\partial T}{\partial y}
-```
 
 ```python
 tadv = mg.hadv(u,v,t,lat,lon)
