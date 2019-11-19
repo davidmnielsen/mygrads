@@ -3,7 +3,7 @@
 This is a collection of functions implemented in python that replicate
 their implementation in GrADS.
 Content:
-1. Centered Differences (cdifof)
+1. Centered Differences (cdiff)
 2. Horizontal Divergence (hdivg)
 3. Vertical component of the relative vorticity (hcurl)
 4. Horizontal Advection (tadv) 
@@ -46,9 +46,9 @@ t    = ds['air'][0,0,:,:].values
 
 ### Horizontal Divergence
 
-$
+```math
 \frac{\partial u}{\partial x}+\frac{\partial v}{\partial y}
-$
+```
 
 ```python
 div = mg.hdivg(u,v,lat,lon)
@@ -56,9 +56,9 @@ div = mg.hdivg(u,v,lat,lon)
 
 ### Relative Vorticity (vertical component of)
 
-$
+```math
 \frac{\partial v}{\partial x}-\frac{\partial u}{\partial y}
-$
+```
 
 ```python
 vort = mg.hcurl(u,v,lat,lon)
@@ -66,10 +66,9 @@ vort = mg.hcurl(u,v,lat,lon)
 
 ### Temperature Advection
 
-$
+```math
 u\frac{\partial T}{\partial x}+v\frac{\partial T}{\partial y}
-$
-
+```
 
 ```python
 tadv = mg.hadv(u,v,t,lat,lon)
