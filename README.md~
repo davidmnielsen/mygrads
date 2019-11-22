@@ -9,7 +9,7 @@ This is a collection of functions implemented in python that replicate their imp
 3. [Horizontal Advection](#horizontal-advection) 
 4. [Centered Finite Differences](#centered-finite-differences)
 
-Requires Numpy for the calculations. We use Xarray to read in the nc files, Matplotlib and Cartopy for plotting. Below there is a simple example to be ran with the sample data included in the package. 
+The package requires Numpy for the calculations. We use Xarray to read in the nc files, Matplotlib and Cartopy for plotting.
 
 ## Installation
 

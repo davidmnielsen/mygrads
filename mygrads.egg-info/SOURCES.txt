@@ -1,0 +1,8 @@
+README.md
+setup.py
+mygrads/__init__.py
+mygrads.egg-info/PKG-INFO
+mygrads.egg-info/SOURCES.txt
+mygrads.egg-info/dependency_links.txt
+mygrads.egg-info/requires.txt
+mygrads.egg-info/top_level.txt
